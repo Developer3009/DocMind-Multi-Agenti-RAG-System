@@ -20,7 +20,7 @@ st.set_page_config(
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # LINE 17: Now it is safe to import your modules
-from agents.registry import AgentRegistry, AGENT_ICONS, AGENT_DESCRIPTIONS ... Rest of your application code follows below
+from agents.registry import AgentRegistry, AGENT_ICONS, AGENT_DESCRIPTIONS
 
 # 2. UI Override: Injecting Custom CSS for a High-End Look
 st.markdown("""
