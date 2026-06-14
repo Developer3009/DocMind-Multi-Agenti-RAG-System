@@ -5,20 +5,23 @@ Powered by Ollama · LangChain · ChromaDB · Streamlit
 
 import os
 import sys
-
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-
 import streamlit as st
 
-# 1. Core Configuration (Must be the first Streamlit command)
+# 1. This MUST be the absolute first Streamlit execution command
 st.set_page_config(
     page_title="DocMind Multi-Agent Engine",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# 2. This can safely follow to ensure your local paths are correct
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# 3. Now it is completely safe to import your local agent modules
+from agents.registry import AgentRegistry, AGENT_ICONS, AGENT_DESCRIPTIONS
+
+# ... Rest of your application code follows below
 
 # 2. UI Override: Injecting Custom CSS for a High-End Look
 st.markdown("""
