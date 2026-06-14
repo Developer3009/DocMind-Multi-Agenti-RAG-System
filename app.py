@@ -12,6 +12,89 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 
+# 1. Core Configuration (Must be the first Streamlit command)
+st.set_page_config(
+    page_title="DocMind Multi-Agent Engine",
+    page_icon="🧠",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# 2. UI Override: Injecting Custom CSS for a High-End Look
+st.markdown("""
+    <style>
+    /* Dark tactical background */
+    .stApp {
+        background-color: #0b0f19;
+    }
+    /* Sleek chat message containers */
+    [data-testid="stChatMessage"] {
+        background-color: #151a28;
+        border: 1px solid #2a3441;
+        border-radius: 6px;
+        padding: 1rem;
+    }
+    /* Emphasizing metrics */
+    [data-testid="stMetricValue"] {
+        color: #00ffcc;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# 3. The Sidebar: System Controls & Telemetry
+with st.sidebar:
+    st.title("⚙️ System Telemetry")
+    
+    # Simulating backend status checks
+    col1, col2 = st.columns(2)
+    col1.metric("Vector DB", "Online", delta="Chroma", delta_color="normal")
+    col2.metric("Agent State", "Idle", delta="Awaiting Input", delta_color="off")
+    
+    st.divider()
+    
+    st.markdown("### Inference Parameters")
+    temperature = st.slider("Creativity (Temperature)", 0.0, 1.0, 0.2)
+    search_k = st.number_input("RAG Context Windows (k)", min_value=1, max_value=10, value=4)
+    
+    if st.button("Purge System Memory", type="primary"):
+        st.session_state.messages = []
+        st.rerun()
+
+# 4. Main Interface: The Chat Terminal
+st.title("🧠 DocMind Intel Interface")
+st.caption("Multi-Agent Document Retrieval and Synthesis")
+
+# Initialize conversation history in session state
+if "messages" not in st.session_state:
+    st.session_state.messages = [{"role": "assistant", "content": "System initialized. Vector space loaded. How can the agents assist you?"}]
+
+# Render existing conversation
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+# 5. The Input & Execution Loop
+if prompt := st.chat_input("Enter query for the agent swarm..."):
+    # Append and display user input
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    # Trigger the multi-agent pipeline
+    with st.chat_message("assistant"):
+        with st.spinner("Agents are analyzing the vector space..."):
+            
+            # --- INTEGRATION POINT ---
+            # This is where you pass `prompt`, `temperature`, and `search_k` 
+            # into your Langchain/Chroma multi-agent pipeline.
+            # response = my_rag_pipeline.run(prompt)
+            
+            # Placeholder response
+            simulated_response = f"**Agent Synthesis:** Based on the {search_k} retrieved documents, the process is successfully executing."
+            
+            st.markdown(simulated_response)
+            st.session_state.messages.append({"role": "assistant", "content": simulated_response})
+
 # ── Path setup ────────────────────────────────────────────────────────────────
 sys.path.insert(0, os.path.dirname(__file__))
 
