@@ -3,11 +3,12 @@ DocMind — Multi-Agent RAG System
 Powered by Ollama · LangChain · ChromaDB · Streamlit
 """
 
+# LINE 1-3: Standard system imports
 import os
 import sys
 import streamlit as st
 
-# 1. This MUST be the absolute first Streamlit execution command
+# LINE 5: This MUST be the absolute first Streamlit execution block
 st.set_page_config(
     page_title="DocMind Multi-Agent Engine",
     page_icon="🧠",
@@ -15,13 +16,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. This can safely follow to ensure your local paths are correct
+# LINE 14: Now it is safe to do other setup tasks
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# 3. Now it is completely safe to import your local agent modules
-from agents.registry import AgentRegistry, AGENT_ICONS, AGENT_DESCRIPTIONS
-
-# ... Rest of your application code follows below
+# LINE 17: Now it is safe to import your modules
+from agents.registry import AgentRegistry, AGENT_ICONS, AGENT_DESCRIPTIONS ... Rest of your application code follows below
 
 # 2. UI Override: Injecting Custom CSS for a High-End Look
 st.markdown("""
